@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Manager</title>
+  <link rel="stylesheet" href="/css/contacts.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">📝 My Apps</div>
+    <div class="nav-links">
+      <a href="/todo" class="nav-link">✅ To-Do List</a>
+      <a href="/contacts" class="nav-link active">📞 Contacts</a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Header -->
+    <div class="page-header">
+      <h1>📞 Contact Manager</h1>
+      <p class="subtitle">Store and manage your contacts</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-num"><%= contacts.length %></span>
+        <span class="stat-label">Total Contacts</span>
+      </div>
+    </div>
+
+    <!-- Add Contact Form -->
+    <div class="card form-card">
+      <h2 class="card-title">➕ Add New Contact</h2>
+      <form action="/contacts/add" method="POST" class="add-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="e.g. Rahul Sharma"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+              type="tel"
+              name="phone"
+              id="phone"
+              placeholder="e.g. 9876543210"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group form-group-full">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="e.g. rahul@example.com"
+              required
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Contact</button>
+      </form>
+    </div>
+
+    <!-- Contact List -->
+    <div class="card">
+      <h2 class="card-title">👤 All Contacts</h2>
+
+      <% if (contacts.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-icon">📞</div>
+          <p>No contacts saved yet! Add your first contact above.</p>
+        </div>
+      <% } else { %>
+        <div class="contact-list">
+          <% contacts.forEach((contact, index) => { %>
+            <div class="contact-card">
+
+              <!-- Avatar -->
+              <div class="contact-avatar">
+                <%= contact.name.charAt(0).toUpperCase() %>
+              </div>
+
+              <!-- Info -->
+              <div class="contact-info">
+                <h3 class="contact-name"><%= contact.name %></h3>
+                <div class="contact-details">
+                  <span class="detail">📞 <%= contact.phone %></span>
+                  <span class="detail">✉️ <%= contact.email %></span>
+                </div>
+                <div class="contact-date">
+                  Added: <%= new Date(contact.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) %>
+                </div>
+              </div>
+
+              <!-- Delete -->
+              <form action="/contacts/delete/<%= contact._id %>" method="POST"
+                    onsubmit="return confirm('Delete this contact?')">
+                <button type="submit" class="btn btn-danger">🗑 Delete</button>
+              </form>
+
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+
+  </div><!-- /container -->
+
+  <footer class="footer">
+    <p>Contact Manager &bull; Node.js + Express + MongoDB</p>
+  </footer>
+
+</body>
+</html>

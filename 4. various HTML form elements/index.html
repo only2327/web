@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Form Elements Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>HTML Form Elements Demo</h1>
+
+  <form action="#" method="post">
+
+    <!-- 1. Text Fields -->
+    <fieldset>
+      <legend>Personal Information</legend>
+
+      <label for="fullname">Full Name:</label>
+      <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" />
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" placeholder="example@email.com" />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter password" />
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" placeholder="Enter your age" min="1" max="120" />
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob" />
+    </fieldset>
+
+    <!-- 2. Radio Buttons -->
+    <fieldset>
+      <legend>Gender</legend>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="gender" value="male" /> Male
+        </label>
+        <label>
+          <input type="radio" name="gender" value="female" /> Female
+        </label>
+        <label>
+          <input type="radio" name="gender" value="other" /> Other
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- 3. Checkboxes -->
+    <fieldset>
+      <legend>Hobbies</legend>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="hobby" value="reading" /> Reading
+        </label>
+        <label>
+          <input type="checkbox" name="hobby" value="coding" /> Coding
+        </label>
+        <label>
+          <input type="checkbox" name="hobby" value="travelling" /> Travelling
+        </label>
+        <label>
+          <input type="checkbox" name="hobby" value="gaming" /> Gaming
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- 4. Dropdown Menu -->
+    <fieldset>
+      <legend>Academic Details</legend>
+
+      <label for="course">Select Course:</label>
+      <select id="course" name="course">
+        <option value="">-- Choose a Course --</option>
+        <option value="bca">BCA</option>
+        <option value="bsc">BSc Computer Science</option>
+        <option value="btech">B.Tech</option>
+        <option value="mca">MCA</option>
+        <option value="mtech">M.Tech</option>
+      </select>
+
+      <label for="year">Select Year:</label>
+      <select id="year" name="year">
+        <option value="">-- Select Year --</option>
+        <option value="1">1st Year</option>
+        <option value="2">2nd Year</option>
+        <option value="3">3rd Year</option>
+        <option value="4">4th Year</option>
+      </select>
+    </fieldset>
+
+    <!-- 5. Text Area -->
+    <fieldset>
+      <legend>About Yourself</legend>
+      <label for="bio">Write a short bio:</label>
+      <textarea id="bio" name="bio" placeholder="Tell us something about yourself..."></textarea>
+    </fieldset>
+
+    <!-- 6. Buttons -->
+    <fieldset>
+      <legend>Actions</legend>
+      <div class="btn-group">
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+        <button type="button" onclick="alert('Button clicked!')">Click Me</button>
+      </div>
+    </fieldset>
+
+  </form>
+
+</body>
+</html>

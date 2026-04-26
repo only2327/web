@@ -1,0 +1,266 @@
+/* 
+   LuminaStore - Custom CSS
+   Modern, responsive, and premium design 
+*/
+
+:root {
+    --primary-color: #4F46E5; /* Indigo-600 */
+    --primary-hover: #4338CA;
+    --secondary-color: #10B981; /* Emerald-500 */
+    --dark-bg: #111827; /* Gray-900 */
+    --light-bg: #F9FAFB; /* Gray-50 */
+    --card-bg: #FFFFFF;
+    --text-main: #1F2937; /* Gray-800 */
+    --text-muted: #6B7280; /* Gray-500 */
+    --border-color: #E5E7EB; /* Gray-200 */
+    --transition-speed: 0.3s;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography & Colors */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Navbar Styling */
+.navbar {
+    border-bottom: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    transition: all var(--transition-speed) ease;
+}
+
+.store-logo {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.search-input {
+    border-radius: 20px;
+    padding-left: 15px;
+    background-color: var(--light-bg);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-speed) ease;
+}
+
+.search-input:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    border-color: var(--primary-color);
+}
+
+/* Page Header */
+.page-header {
+    background-color: #fff !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sort-select {
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Filter Sidebar */
+.filter-card {
+    border-radius: 12px;
+}
+
+.filter-section h6 {
+    letter-spacing: 0.5px;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.price-input {
+    border-radius: 6px;
+}
+
+/* Product Cards */
+.product-card {
+    border-radius: 12px;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.product-image-wrapper {
+    background-color: #F3F4F6; /* Light gray for placeholder */
+}
+
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    backdrop-filter: blur(2px);
+}
+
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+.quick-view-btn {
+    border-radius: 20px;
+    font-weight: 500;
+    transform: translateY(15px);
+    transition: transform var(--transition-speed) ease;
+}
+
+.product-card:hover .quick-view-btn {
+    transform: translateY(0);
+}
+
+.product-title {
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+.product-title a {
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+.product-title a:hover {
+    color: var(--primary-color) !important;
+}
+
+.add-to-cart-btn {
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Pagination */
+.custom-pagination .page-link {
+    color: var(--text-main);
+    border: none;
+    margin: 0 4px;
+    border-radius: 8px !important;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
+}
+
+.custom-pagination .page-link:hover:not(.active) {
+    background-color: #E5E7EB;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    background-color: transparent;
+    color: var(--border-color);
+}
+
+/* Footer */
+.footer-custom {
+    background-color: var(--dark-bg) !important;
+}
+
+.footer-link {
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    display: inline-block;
+}
+
+.footer-link:hover {
+    color: var(--primary-color) !important;
+    text-decoration: none;
+    padding-left: 5px;
+}
+
+.footer-social {
+    transition: color 0.2s ease;
+}
+
+.footer-social:hover {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+/* Form Controls Customization */
+.form-control:focus, .custom-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+}
+
+/* Utility Classes */
+.z-index-1 {
+    z-index: 1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+    
+    .filter-card {
+        margin-bottom: 2rem;
+    }
+}

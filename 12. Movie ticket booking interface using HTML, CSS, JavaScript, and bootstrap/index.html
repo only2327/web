@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook - Movie Ticket Booking</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">&#127916; Cine<span>Book</span></a>
+        <span class="nav-tagline d-none d-md-block">Your Cinema, Your Choice</span>
+    </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="container py-4">
+    <div class="row g-4">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-lg-5">
+
+            <!-- Step 1: Movie Selection -->
+            <p class="section-heading">&#127916; Step 1 &mdash; Choose a Movie</p>
+
+            <div class="row g-3" id="movie-list">
+
+                <!-- Movie 1 -->
+                <div class="col-6">
+                    <div class="movie-card" data-movie="Inception" data-price="150">
+                        <div class="movie-poster" style="background: linear-gradient(135deg, #1a237e, #4a148c);">
+                            &#127756; Inception
+                            <small>Sci-Fi &bull; 2h 28m</small>
+                        </div>
+                        <div class="movie-info">
+                            <h6>Inception</h6>
+                            <p class="genre">Sci-Fi / Action</p>
+                            <span class="price-tag">&#8377;150 / seat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movie 2 -->
+                <div class="col-6">
+                    <div class="movie-card" data-movie="The Dark Knight" data-price="120">
+                        <div class="movie-poster" style="background: linear-gradient(135deg, #212121, #424242);">
+                            &#129416; Dark Knight
+                            <small>Action &bull; 2h 32m</small>
+                        </div>
+                        <div class="movie-info">
+                            <h6>The Dark Knight</h6>
+                            <p class="genre">Action / Crime</p>
+                            <span class="price-tag">&#8377;120 / seat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movie 3 -->
+                <div class="col-6">
+                    <div class="movie-card" data-movie="Interstellar" data-price="180">
+                        <div class="movie-poster" style="background: linear-gradient(135deg, #0d47a1, #006064);">
+                            &#127775; Interstellar
+                            <small>Sci-Fi &bull; 2h 49m</small>
+                        </div>
+                        <div class="movie-info">
+                            <h6>Interstellar</h6>
+                            <p class="genre">Sci-Fi / Drama</p>
+                            <span class="price-tag">&#8377;180 / seat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movie 4 -->
+                <div class="col-6">
+                    <div class="movie-card" data-movie="Avengers: Endgame" data-price="200">
+                        <div class="movie-poster" style="background: linear-gradient(135deg, #b71c1c, #880e4f);">
+                            &#128737; Endgame
+                            <small>Action &bull; 3h 1m</small>
+                        </div>
+                        <div class="movie-info">
+                            <h6>Avengers: Endgame</h6>
+                            <p class="genre">Action / Fantasy</p>
+                            <span class="price-tag">&#8377;200 / seat</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Step 2: Timing Selection -->
+            <p class="section-heading mt-4">&#128336; Step 2 &mdash; Select Show Timing</p>
+            <div class="d-flex flex-wrap gap-2" id="timing-area">
+                <button class="timing-btn" disabled>10:00 AM</button>
+                <button class="timing-btn" disabled>01:30 PM</button>
+                <button class="timing-btn" disabled>04:00 PM</button>
+                <button class="timing-btn" disabled>07:30 PM</button>
+                <button class="timing-btn" disabled>10:00 PM</button>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-lg-7">
+
+            <!-- Step 3: Seat Selection -->
+            <p class="section-heading">&#128186; Step 3 &mdash; Select Seats</p>
+
+            <div class="cinema-box mb-4">
+
+                <!-- Overlay -->
+                <div class="cinema-overlay" id="cinema-overlay">
+                    <div class="lock-icon">&#128274;</div>
+                    <strong>Select a movie &amp; timing to unlock seats</strong>
+                    <p>Complete Steps 1 &amp; 2 first</p>
+                </div>
+
+                <!-- Screen -->
+                <p class="screen-label">&#9654; SCREEN THIS SIDE &#9664;</p>
+                <div class="screen-bar"></div>
+
+                <!-- Seat Grid -->
+                <div class="seat-grid" id="seat-grid">
+                    <!-- Seats are generated by JS -->
+                </div>
+
+                <!-- Legend -->
+                <div class="seat-legend">
+                    <div class="legend-item">
+                        <div class="legend-box available"></div>
+                        <span>Available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box selected"></div>
+                        <span>Selected</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box occupied"></div>
+                        <span>Occupied</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Booking Summary -->
+            <div class="summary-card">
+                <div class="summary-header">&#128203; Booking Summary</div>
+                <div class="summary-body">
+                    <div class="summary-row">
+                        <span class="label">Movie</span>
+                        <span class="value" id="s-movie">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Show Timing</span>
+                        <span class="value" id="s-timing">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Seats Selected</span>
+                        <span class="value" id="s-seats">0 seats</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Price per Seat</span>
+                        <span class="value" id="s-price">&#8377;0</span>
+                    </div>
+                    <div class="summary-total-row">
+                        <span class="total-label">Total Amount</span>
+                        <span class="total-amount" id="s-total">&#8377;0</span>
+                    </div>
+                    <button class="btn-book" id="checkout-btn" disabled>
+                        &#9989; Confirm Booking
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== BOOKING TOAST ===== -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+    <div id="bookingToast" class="toast align-items-center border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="6000">
+        <div class="toast-header" style="background:#1a1a2e; color:#fff;">
+            <span style="font-size:1.1rem; margin-right:8px;">&#127916;</span>
+            <strong class="me-auto">Booking Confirmed!</strong>
+            <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" style="background:#fff; padding: 14px 16px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:2rem;">&#9989;</span>
+                <span style="font-weight:700; font-size:1rem; color:#1a1a2e;">Your tickets are booked!</span>
+            </div>
+            <div style="background:#f8f9fa; border-radius:8px; padding:10px 12px; font-size:0.85rem; line-height:2;">
+                <div><strong>Movie &nbsp;:</strong> <span id="m-movie"></span></div>
+                <div><strong>Timing &nbsp;:</strong> <span id="m-timing"></span></div>
+                <div><strong>Seats &nbsp;:</strong> <span id="m-seats"></span></div>
+                <div><strong>Total &nbsp;:</strong> <span id="m-total" style="color:#e94560; font-weight:800;"></span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

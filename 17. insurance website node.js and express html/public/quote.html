@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get a Quote - ShieldSure</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Shield<span>Sure</span></div>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/plans">Plans</a>
+    <a href="/quote" class="active">Get Quote</a>
+    <a href="/claims">Claims</a>
+    <a href="/policy">My Policy</a>
+    <a href="/admin" class="btn-nav">Admin</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Get Your Free Quote</h1>
+  <p>Fill in your details to instantly calculate your premium</p>
+</div>
+
+<section class="section">
+  <div class="form-card">
+    <div class="form-title">Request an Insurance Quote</div>
+    <div class="form-sub">We'll calculate your personalised monthly premium instantly.</div>
+
+    <div id="alert" class="alert"></div>
+
+    <form id="quoteForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="fullName" placeholder="e.g. Rahul Sharma" required />
+        </div>
+        <div class="form-group">
+          <label>Age *</label>
+          <input type="number" id="age" placeholder="e.g. 30" min="18" max="80" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="rahul@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="phone" placeholder="9876543210" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Insurance Type *</label>
+          <select id="planType" required>
+            <option value="">-- Select Plan --</option>
+            <option value="health">Health Insurance</option>
+            <option value="life">Life Insurance</option>
+            <option value="vehicle">Vehicle Insurance</option>
+            <option value="home">Home Insurance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cover Amount (₹) *</label>
+          <select id="coverAmount" required>
+            <option value="">-- Select Cover --</option>
+            <option value="200000">₹2,00,000</option>
+            <option value="500000">₹5,00,000</option>
+            <option value="1000000">₹10,00,000</option>
+            <option value="2500000">₹25,00,000</option>
+            <option value="5000000">₹50,00,000</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Calculate My Premium</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <div class="premium-label">Your Estimated Monthly Premium</div>
+      <div class="premium-amount">₹<span id="premiumVal">0</span></div>
+      <p style="color:var(--muted);font-size:0.85rem;margin-top:0.5rem;">Quote saved! Visit Admin panel to manage.</p>
+      <a href="/admin" class="btn btn-success" style="margin-top:1rem;">View in Admin →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>ShieldSure Insurance</strong> &copy; 2025
+</footer>
+
+<script>
+  // Pre-select plan from URL param
+  const params = new URLSearchParams(window.location.search);
+  const planParam = params.get('plan');
+  if (planParam) document.getElementById('planType').value = planParam;
+
+  document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const alert = document.getElementById('alert');
+    alert.className = 'alert'; alert.textContent = '';
+
+    const data = {
+      fullName:    document.getElementById('fullName').value.trim(),
+      email:       document.getElementById('email').value.trim(),
+      phone:       document.getElementById('phone').value.trim(),
+      age:         document.getElementById('age').value,
+      planType:    document.getElementById('planType').value,
+      coverAmount: document.getElementById('coverAmount').value
+    };
+
+    try {
+      const res = await fetch('/api/quotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.success) {
+        document.getElementById('premiumVal').textContent = json.premium.toLocaleString('en-IN');
+        document.getElementById('resultBox').classList.add('show');
+        alert.className = 'alert alert-success show';
+        alert.textContent = '✅ ' + json.message;
+        document.getElementById('quoteForm').reset();
+      } else {
+        alert.className = 'alert alert-error show';
+        alert.textContent = '❌ ' + json.message;
+      }
+    } catch(err) {
+      alert.className = 'alert alert-error show';
+      alert.textContent = '❌ Server error. Please try again.';
+    }
+  });
+</script>
+</body>
+</html>

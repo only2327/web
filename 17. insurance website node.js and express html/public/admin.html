@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - ShieldSure</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Shield<span>Sure</span></div>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/plans">Plans</a>
+    <a href="/quote">Get Quote</a>
+    <a href="/claims">Claims</a>
+    <a href="/policy">My Policy</a>
+    <a href="/admin" class="btn-nav active">Admin</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Admin Dashboard</h1>
+  <p>Manage all policies, quotes, and claims</p>
+</div>
+
+<section class="section">
+  <!-- Stats -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-card"><div class="stat-num" id="sTotalPolicies">--</div><div class="stat-label">Total Policies</div></div>
+    <div class="stat-card"><div class="stat-num" id="sTotalQuotes">--</div><div class="stat-label">Quotes Received</div></div>
+    <div class="stat-card"><div class="stat-num" id="sTotalClaims">--</div><div class="stat-label">Total Claims</div></div>
+    <div class="stat-card"><div class="stat-num" id="sPendingClaims" style="color:var(--warning);">--</div><div class="stat-label">Pending Claims</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('policies', this)">📋 Policies</button>
+    <button class="tab-btn" onclick="switchTab('quotes', this)">💬 Quotes</button>
+    <button class="tab-btn" onclick="switchTab('claims', this)">📝 Claims</button>
+  </div>
+
+  <!-- Policies Tab -->
+  <div id="tab-policies" class="tab-content active">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h3>All Policies</h3>
+      <button class="btn btn-outline btn-sm" onclick="loadPolicies()">🔄 Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Policy No</th><th>Holder</th><th>Plan</th><th>Cover</th><th>Premium/mo</th><th>Valid Until</th><th>Status</th></tr>
+        </thead>
+        <tbody id="policiesBody">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Quotes Tab -->
+  <div id="tab-quotes" class="tab-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h3>All Quote Requests</h3>
+      <button class="btn btn-outline btn-sm" onclick="loadQuotes()">🔄 Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Age</th><th>Plan</th><th>Cover</th><th>Premium/mo</th><th>Date</th></tr>
+        </thead>
+        <tbody id="quotesBody">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Claims Tab -->
+  <div id="tab-claims" class="tab-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h3>All Claims</h3>
+      <button class="btn btn-outline btn-sm" onclick="loadClaims()">🔄 Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Policy No</th><th>Holder</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th><th>Action</th></tr>
+        </thead>
+        <tbody id="claimsBody">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>ShieldSure Insurance</strong> &copy; 2025
+</footer>
+
+<script>
+  const planIcons = { health:'❤️', life:'🌿', vehicle:'🚗', home:'🏠' };
+  const fmt = n => '₹' + Number(n).toLocaleString('en-IN');
+  const fmtDate = d => new Date(d).toLocaleDateString('en-IN');
+
+  // ── Tabs ──────────────────────────────────────────────────────────────────
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── Stats ─────────────────────────────────────────────────────────────────
+  async function loadStats() {
+    try {
+      const res = await fetch('/api/stats');
+      const json = await res.json();
+      if (json.success) {
+        document.getElementById('sTotalPolicies').textContent = json.stats.totalPolicies;
+        document.getElementById('sTotalQuotes').textContent   = json.stats.totalQuotes;
+        document.getElementById('sTotalClaims').textContent   = json.stats.totalClaims;
+        document.getElementById('sPendingClaims').textContent = json.stats.pendingClaims;
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  // ── Policies ──────────────────────────────────────────────────────────────
+  async function loadPolicies() {
+    const body = document.getElementById('policiesBody');
+    try {
+      const res = await fetch('/api/policies');
+      const json = await res.json();
+      if (!json.success || json.policies.length === 0) {
+        body.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="empty-icon">📋</div>No policies found.</div></td></tr>';
+        return;
+      }
+      body.innerHTML = json.policies.map(p => `
+        <tr>
+          <td style="font-family:monospace;font-size:0.8rem;">${p.policyNumber}</td>
+          <td><strong>${p.holderName}</strong><br><span style="color:var(--muted);font-size:0.8rem;">${p.email}</span></td>
+          <td>${planIcons[p.planType] || ''} ${p.planType}</td>
+          <td>${fmt(p.coverAmount)}</td>
+          <td>${fmt(p.premium)}</td>
+          <td>${fmtDate(p.endDate)}</td>
+          <td><span class="badge badge-active">${p.status}</span></td>
+        </tr>`).join('');
+    } catch(e) {
+      body.innerHTML = '<tr><td colspan="7" style="color:var(--danger);">Error loading data.</td></tr>';
+    }
+  }
+
+  // ── Quotes ────────────────────────────────────────────────────────────────
+  async function loadQuotes() {
+    const body = document.getElementById('quotesBody');
+    try {
+      const res = await fetch('/api/quotes');
+      const json = await res.json();
+      if (!json.success || json.quotes.length === 0) {
+        body.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="empty-icon">💬</div>No quotes yet.</div></td></tr>';
+        return;
+      }
+      body.innerHTML = json.quotes.map(q => `
+        <tr>
+          <td><strong>${q.fullName}</strong></td>
+          <td style="color:var(--muted);font-size:0.85rem;">${q.email}</td>
+          <td>${q.age}</td>
+          <td>${planIcons[q.planType] || ''} ${q.planType}</td>
+          <td>${fmt(q.coverAmount)}</td>
+          <td style="color:var(--primary);font-weight:700;">${fmt(q.premium)}</td>
+          <td>${fmtDate(q.createdAt)}</td>
+        </tr>`).join('');
+    } catch(e) {
+      body.innerHTML = '<tr><td colspan="7" style="color:var(--danger);">Error loading data.</td></tr>';
+    }
+  }
+
+  // ── Claims ────────────────────────────────────────────────────────────────
+  async function loadClaims() {
+    const body = document.getElementById('claimsBody');
+    try {
+      const res = await fetch('/api/claims');
+      const json = await res.json();
+      if (!json.success || json.claims.length === 0) {
+        body.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="empty-icon">📝</div>No claims yet.</div></td></tr>';
+        return;
+      }
+      body.innerHTML = json.claims.map(c => {
+        const badge = c.status === 'Approved' ? 'badge-approved' : c.status === 'Rejected' ? 'badge-rejected' : 'badge-review';
+        return `<tr>
+          <td style="font-family:monospace;font-size:0.8rem;">${c.policyNumber}</td>
+          <td><strong>${c.holderName}</strong></td>
+          <td>${c.claimType}</td>
+          <td>${fmt(c.claimAmount)}</td>
+          <td><span class="badge ${badge}">${c.status}</span></td>
+          <td>${fmtDate(c.createdAt)}</td>
+          <td>
+            <select onchange="updateClaim('${c._id}', this.value)" style="background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.6rem;color:var(--text);font-size:0.8rem;">
+              <option value="">Change Status</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </td>
+        </tr>`;
+      }).join('');
+    } catch(e) {
+      body.innerHTML = '<tr><td colspan="7" style="color:var(--danger);">Error loading data.</td></tr>';
+    }
+  }
+
+  async function updateClaim(id, status) {
+    if (!status) return;
+    try {
+      await fetch('/api/claims/' + id + '/status', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      loadClaims(); loadStats();
+    } catch(e) { alert('Error updating claim.'); }
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  loadStats();
+  loadPolicies();
+  loadQuotes();
+  loadClaims();
+</script>
+</body>
+</html>

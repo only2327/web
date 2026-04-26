@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List App</title>
+  <link rel="stylesheet" href="/css/todo.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">📝 My Apps</div>
+    <div class="nav-links">
+      <a href="/todo" class="nav-link active">✅ To-Do List</a>
+      <a href="/contacts" class="nav-link">📞 Contacts</a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Header -->
+    <div class="page-header">
+      <h1>✅ To-Do List</h1>
+      <p class="subtitle">Manage your daily tasks efficiently</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-num"><%= tasks.length %></span>
+        <span class="stat-label">Total Tasks</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num"><%= tasks.filter(t => t.completed).length %></span>
+        <span class="stat-label">Completed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num"><%= tasks.filter(t => !t.completed).length %></span>
+        <span class="stat-label">Pending</span>
+      </div>
+    </div>
+
+    <!-- Add Task Form -->
+    <div class="card form-card">
+      <h2 class="card-title">➕ Add New Task</h2>
+      <form action="/todo/add" method="POST" class="add-form">
+        <div class="input-group">
+          <input
+            type="text"
+            name="title"
+            id="taskInput"
+            placeholder="Enter your task here..."
+            required
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-primary">Add Task</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Task List -->
+    <div class="card">
+      <h2 class="card-title">📝 All Tasks</h2>
+
+      <% if (tasks.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-icon">😎</div>
+          <p>No tasks yet! Add your first task above.</p>
+        </div>
+      <% } else { %>
+        <ul class="task-list">
+          <% tasks.forEach(task => { %>
+            <li class="task-item <%= task.completed ? 'completed' : '' %>">
+
+              <div class="task-info">
+                <span class="task-check"><%= task.completed ? '✅' : '⬜' %></span>
+                <span class="task-title"><%= task.title %></span>
+              </div>
+
+              <div class="task-date">
+                <%= new Date(task.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) %>
+              </div>
+
+              <div class="task-actions">
+                <!-- Toggle Complete -->
+                <form action="/todo/complete/<%= task._id %>" method="POST" style="display:inline;">
+                  <button type="submit" class="btn <%= task.completed ? 'btn-warning' : 'btn-success' %>">
+                    <%= task.completed ? 'Undo' : 'Complete' %>
+                  </button>
+                </form>
+                <!-- Delete -->
+                <form action="/todo/delete/<%= task._id %>" method="POST" style="display:inline;"
+                      onsubmit="return confirm('Delete this task?')">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+
+  </div><!-- /container -->
+
+  <footer class="footer">
+    <p>To-Do App &bull; Node.js + Express + MongoDB</p>
+  </footer>
+
+</body>
+</html>

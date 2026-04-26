@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Records - RentX</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">RentX</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/bookings" class="active">View Bookings</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="bookings-section">
+            <div class="header-action">
+                <h2 class="section-title">All Booking Records</h2>
+            </div>
+
+            <% if (bookings.length === 0) { %>
+                <div class="empty-state">
+                    <div class="empty-icon">📁</div>
+                    <h3>No bookings found</h3>
+                    <p>There are currently no active rental bookings in the system.</p>
+                </div>
+            <% } else { %>
+                <div class="table-container">
+                    <table class="bookings-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Customer Name</th>
+                                <th>Contact</th>
+                                <th>Duration</th>
+                                <th>Date Booked</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% bookings.forEach(booking => { %>
+                                <tr>
+                                    <td><span class="badge"><%= booking.itemType %></span></td>
+                                    <td class="fw-bold"><%= booking.customerName %></td>
+                                    <td><%= booking.customerPhone %></td>
+                                    <td><%= booking.rentalDuration %> day(s)</td>
+                                    <td class="text-muted"><%= new Date(booking.bookingDate).toLocaleDateString() %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>

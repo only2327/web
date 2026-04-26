@@ -1,0 +1,334 @@
+/* ═══════════════════════════════════════════════════
+   WeatherVision Dashboard – style.css
+   ═══════════════════════════════════════════════════ */
+
+/* ── 1. RESET & BASE ────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0b0f1e;
+  --bg2:         #111728;
+  --bg3:         #18213a;
+  --card:        #1a2340;
+  --card-hover:  #1f2b4d;
+  --border:      rgba(255,255,255,0.07);
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-violet:#8b5cf6;
+  --accent-pink: #ec4899;
+  --accent-amber:#f59e0b;
+  --accent-green:#22c55e;
+  --text:        #e2e8f0;
+  --text-muted:  #94a3b8;
+  --radius:      14px;
+  --shadow:      0 8px 32px rgba(0,0,0,0.45);
+  --transition:  0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated bg gradient */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(139,92,246,0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 2. HEADER ────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11,15,30,0.85);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon { font-size: 2rem; filter: drop-shadow(0 0 8px #3b82f6); }
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+.brand-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.city-selector, .month-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+select {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+}
+select:focus, select:hover { border-color: var(--accent-blue); }
+
+.refresh-btn {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+  border: none;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.refresh-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+}
+.refresh-btn:active { transform: scale(0.96); }
+
+/* ── 3. STATS STRIP ──────────────────────────────── */
+.stats-strip {
+  max-width: 1400px;
+  margin: 28px auto 0;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  background: var(--card-hover);
+  box-shadow: var(--shadow);
+}
+.stat-icon { font-size: 2rem; line-height: 1; }
+.stat-info { display: flex; flex-direction: column; }
+.stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1; color: #fff; }
+.stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; letter-spacing: 0.5px; }
+
+.stat-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 7px;
+  border-radius: 20px;
+}
+.badge-hot    { background: rgba(239,68,68,0.2);  color: #f87171; }
+.badge-humid  { background: rgba(6,182,212,0.2);  color: #67e8f9; }
+.badge-rain   { background: rgba(59,130,246,0.2); color: #93c5fd; }
+.badge-wind   { background: rgba(34,197,94,0.2);  color: #86efac; }
+.badge-uv     { background: rgba(245,158,11,0.2); color: #fcd34d; }
+
+/* ── 4. DASHBOARD GRID ───────────────────────────── */
+.dashboard {
+  max-width: 1400px;
+  margin: 28px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.chart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.chart-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-violet));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card-wide { grid-column: span 2; }
+@media (max-width: 900px) { .card-wide { grid-column: span 1; } }
+@media (max-width: 700px) { .dashboard { grid-template-columns: 1fr; } }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+
+.toggle-group { display: flex; gap: 6px; }
+.tog {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.tog.active, .tog:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #fff;
+}
+
+.chart-wrap { position: relative; height: 260px; }
+.chart-wrap-sm { height: 220px; }
+
+/* ── 5. FORECAST STRIP ───────────────────────────── */
+.forecast-section {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  padding: 0 24px;
+}
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.forecast-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+@media (max-width: 700px) {
+  .forecast-strip { grid-template-columns: repeat(3, 1fr); }
+}
+
+.forecast-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 10px;
+  text-align: center;
+  cursor: default;
+  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+  animation: fadeUp 0.5s ease backwards;
+}
+.forecast-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: var(--card-hover);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+.fc-day   { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+.fc-icon  { font-size: 2rem; margin: 8px 0; display: block; }
+.fc-hi    { font-size: 1.05rem; font-weight: 800; color: #fff; }
+.fc-lo    { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+.fc-rain  { font-size: 0.7rem; color: #93c5fd; margin-top: 6px; }
+
+/* ── 6. FOOTER ───────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 20px 24px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+/* ── 7. ANIMATIONS ───────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chart-card { animation: fadeUp 0.5s ease backwards; }
+.chart-card:nth-child(1) { animation-delay: 0.05s; }
+.chart-card:nth-child(2) { animation-delay: 0.10s; }
+.chart-card:nth-child(3) { animation-delay: 0.15s; }
+.chart-card:nth-child(4) { animation-delay: 0.20s; }
+.chart-card:nth-child(5) { animation-delay: 0.25s; }
+.chart-card:nth-child(6) { animation-delay: 0.30s; }
+.stat-card  { animation: fadeUp 0.5s ease backwards; }
+.stat-card:nth-child(1) { animation-delay: 0.02s; }
+.stat-card:nth-child(2) { animation-delay: 0.06s; }
+.stat-card:nth-child(3) { animation-delay: 0.10s; }
+.stat-card:nth-child(4) { animation-delay: 0.14s; }
+.stat-card:nth-child(5) { animation-delay: 0.18s; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 4px; }

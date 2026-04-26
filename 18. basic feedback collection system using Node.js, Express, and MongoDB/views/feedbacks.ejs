@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Feedbacks — FeedbackHub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- ── Navigation ─────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="nav-icon">📝</span>
+      <span class="nav-title">FeedbackHub</span>
+    </div>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Submit Feedback</a>
+      <a href="/feedbacks" class="nav-link active">View Feedbacks</a>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ────────────────────────────────────── -->
+  <main class="main-container" style="max-width: 1000px;">
+
+    <div class="page-header">
+      <div class="header-icon">📊</div>
+      <h1 class="page-title">All Feedback Entries</h1>
+      <p class="page-subtitle">Browse all submitted student feedbacks below</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <% if (feedbacks.length > 0) { %>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number"><%= feedbacks.length %></span>
+        <span class="stat-label">Total Feedbacks</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">
+          <%= [...new Set(feedbacks.map(f => f.subject))].length %>
+        </span>
+        <span class="stat-label">Subjects Covered</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">
+          <%= [...new Set(feedbacks.map(f => f.studentName))].length %>
+        </span>
+        <span class="stat-label">Unique Students</span>
+      </div>
+    </div>
+    <% } %>
+
+    <!-- ── Feedback Table or Empty State ────────────────── -->
+    <% if (feedbacks.length === 0) { %>
+      <div class="empty-state">
+        <span class="empty-icon">📭</span>
+        <h2>No Feedbacks Yet</h2>
+        <p>Be the first to submit feedback using the form.</p>
+        <a href="/" class="btn-primary">Submit Feedback</a>
+      </div>
+
+    <% } else { %>
+      <div class="table-card">
+        <table class="feedback-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student Name</th>
+              <th>Subject</th>
+              <th>Feedback</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% feedbacks.forEach((fb, index) => { %>
+            <tr>
+              <td class="td-serial"><%= index + 1 %></td>
+              <td class="td-name">
+                👤 <%= fb.studentName %>
+              </td>
+              <td>
+                <span class="subject-badge"><%= fb.subject %></span>
+              </td>
+              <td><%= fb.feedback %></td>
+              <td class="td-date">
+                <%= fb.createdAt.toLocaleDateString('en-IN', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric'
+                    }) %>
+              </td>
+              <td>
+                <form action="/delete/<%= fb._id %>" method="POST"
+                      onsubmit="return confirm('Delete this feedback?')">
+                  <button type="submit" class="btn-delete">🗑 Delete</button>
+                </form>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+
+    <!-- Back link -->
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <a href="/" class="btn-primary">＋ Add New Feedback</a>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>&copy; 2024 FeedbackHub &mdash; Student Feedback Collection System</p>
+  </footer>
+
+</body>
+</html>

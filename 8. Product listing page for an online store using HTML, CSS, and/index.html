@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuminaStore - Products</title>
+    <!-- Local Bootstrap 4.0.0 CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold store-logo" href="#">
+                <span class="text-primary">Lumina</span>Store
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="#">Shop <span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Deals</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <input type="text" class="form-control form-control-sm mr-2 search-input" placeholder="Search products...">
+                    <button class="btn btn-outline-primary btn-sm">Cart (3)</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-light py-4 mb-4 page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="h3 font-weight-bold mb-1">Our Products</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 m-0 text-muted small">
+                            <li class="breadcrumb-item"><a href="#" class="text-muted">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#" class="text-muted">Shop</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">All Products</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0 d-flex justify-content-md-end align-items-center">
+                    <span class="mr-2 text-muted small">Sort by:</span>
+                    <select class="custom-select custom-select-sm w-auto sort-select">
+                        <option selected>Featured</option>
+                        <option value="1">Price: Low to High</option>
+                        <option value="2">Price: High to Low</option>
+                        <option value="3">Newest Arrivals</option>
+                        <option value="4">Customer Rating</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="container mb-5">
+        <div class="row">
+            <!-- Sidebar: Filters -->
+            <div class="col-lg-3 mb-4">
+                <div class="card filter-card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold mb-4">Filters</h5>
+                        
+                        <!-- Filter Category -->
+                        <div class="filter-section mb-4">
+                            <h6 class="font-weight-bold mb-3 text-uppercase small text-muted">Categories</h6>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="cat-electronics" checked>
+                                <label class="custom-control-label" for="cat-electronics">Electronics <span class="text-muted small">(42)</span></label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="cat-clothing">
+                                <label class="custom-control-label" for="cat-clothing">Clothing <span class="text-muted small">(15)</span></label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="cat-home">
+                                <label class="custom-control-label" for="cat-home">Home & Garden <span class="text-muted small">(28)</span></label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="cat-sports">
+                                <label class="custom-control-label" for="cat-sports">Sports <span class="text-muted small">(11)</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Filter Price -->
+                        <div class="filter-section mb-4">
+                            <h6 class="font-weight-bold mb-3 text-uppercase small text-muted">Price Range</h6>
+                            <div class="d-flex align-items-center mb-3">
+                                <input type="number" class="form-control form-control-sm text-center price-input" placeholder="$Min">
+                                <span class="mx-2 text-muted">-</span>
+                                <input type="number" class="form-control form-control-sm text-center price-input" placeholder="$Max">
+                            </div>
+                            <button class="btn btn-outline-secondary btn-sm btn-block">Apply Price</button>
+                        </div>
+
+                        <!-- Filter Brand -->
+                        <div class="filter-section">
+                            <h6 class="font-weight-bold mb-3 text-uppercase small text-muted">Brands</h6>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="brand-apple">
+                                <label class="custom-control-label" for="brand-apple">Apple</label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="brand-samsung">
+                                <label class="custom-control-label" for="brand-samsung">Samsung</label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="brand-sony">
+                                <label class="custom-control-label" for="brand-sony">Sony</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="col-lg-9">
+                <div class="row">
+                    <!-- Product Card 1 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <div class="position-relative overflow-hidden product-image-wrapper">
+                                <span class="badge badge-danger position-absolute mt-2 ml-2 z-index-1">Sale</span>
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                                    <title>Placeholder</title><rect width="100%" height="100%" fill="#f8f9fa"/><text x="50%" y="50%" fill="#adb5bd" dy=".3em" text-anchor="middle" font-size="1.2rem">Product Image</text>
+                                </svg>
+                                <div class="product-overlay d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-light btn-sm mr-2 shadow quick-view-btn">Quick View</button>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-1">Electronics</div>
+                                <h5 class="card-title product-title mb-2"><a href="#" class="text-dark">Wireless Noise Cancelling Headphones</a></h5>
+                                <div class="d-flex align-items-center mb-3 mt-auto">
+                                    <span class="font-weight-bold text-primary mr-2 h5 mb-0">$249.99</span>
+                                    <span class="text-muted small"><del>$299.99</del></span>
+                                </div>
+                                <button class="btn btn-primary btn-block mt-auto add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <div class="position-relative overflow-hidden product-image-wrapper">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                                    <title>Placeholder</title><rect width="100%" height="100%" fill="#f8f9fa"/><text x="50%" y="50%" fill="#adb5bd" dy=".3em" text-anchor="middle" font-size="1.2rem">Product Image</text>
+                                </svg>
+                                <div class="product-overlay d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-light btn-sm mr-2 shadow quick-view-btn">Quick View</button>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-1">Accessories</div>
+                                <h5 class="card-title product-title mb-2"><a href="#" class="text-dark">Minimalist Leather Smart Watch</a></h5>
+                                <div class="d-flex align-items-center mb-3 mt-auto">
+                                    <span class="font-weight-bold text-primary mr-2 h5 mb-0">$149.00</span>
+                                </div>
+                                <button class="btn btn-primary btn-block mt-auto add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <div class="position-relative overflow-hidden product-image-wrapper">
+                                <span class="badge badge-success position-absolute mt-2 ml-2 z-index-1">New</span>
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                                    <title>Placeholder</title><rect width="100%" height="100%" fill="#f8f9fa"/><text x="50%" y="50%" fill="#adb5bd" dy=".3em" text-anchor="middle" font-size="1.2rem">Product Image</text>
+                                </svg>
+                                <div class="product-overlay d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-light btn-sm mr-2 shadow quick-view-btn">Quick View</button>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-1">Cameras</div>
+                                <h5 class="card-title product-title mb-2"><a href="#" class="text-dark">Professional DSLR Camera Kit</a></h5>
+                                <div class="d-flex align-items-center mb-3 mt-auto">
+                                    <span class="font-weight-bold text-primary mr-2 h5 mb-0">$899.50</span>
+                                </div>
+                                <button class="btn btn-primary btn-block mt-auto add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 4 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <div class="position-relative overflow-hidden product-image-wrapper">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                                    <title>Placeholder</title><rect width="100%" height="100%" fill="#f8f9fa"/><text x="50%" y="50%" fill="#adb5bd" dy=".3em" text-anchor="middle" font-size="1.2rem">Product Image</text>
+                                </svg>
+                                <div class="product-overlay d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-light btn-sm mr-2 shadow quick-view-btn">Quick View</button>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-1">Computers</div>
+                                <h5 class="card-title product-title mb-2"><a href="#" class="text-dark">Ultra-Slim 15" Premium Laptop</a></h5>
+                                <div class="d-flex align-items-center mb-3 mt-auto">
+                                    <span class="font-weight-bold text-primary mr-2 h5 mb-0">$1249.99</span>
+                                </div>
+                                <button class="btn btn-primary btn-block mt-auto add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 5 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <div class="position-relative overflow-hidden product-image-wrapper">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                                    <title>Placeholder</title><rect width="100%" height="100%" fill="#f8f9fa"/><text x="50%" y="50%" fill="#adb5bd" dy=".3em" text-anchor="middle" font-size="1.2rem">Product Image</text>
+                                </svg>
+                                <div class="product-overlay d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-light btn-sm mr-2 shadow quick-view-btn">Quick View</button>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-1">Audio</div>
+                                <h5 class="card-title product-title mb-2"><a href="#" class="text-dark">Portable Bluetooth Speaker</a></h5>
+                                <div class="d-flex align-items-center mb-3 mt-auto">
+                                    <span class="font-weight-bold text-primary mr-2 h5 mb-0">$59.99</span>
+                                </div>
+                                <button class="btn btn-primary btn-block mt-auto add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 6 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <div class="position-relative overflow-hidden product-image-wrapper">
+                                <span class="badge badge-warning position-absolute mt-2 ml-2 z-index-1">Few Left</span>
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                                    <title>Placeholder</title><rect width="100%" height="100%" fill="#f8f9fa"/><text x="50%" y="50%" fill="#adb5bd" dy=".3em" text-anchor="middle" font-size="1.2rem">Product Image</text>
+                                </svg>
+                                <div class="product-overlay d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-light btn-sm mr-2 shadow quick-view-btn">Quick View</button>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-1">Gaming</div>
+                                <h5 class="card-title product-title mb-2"><a href="#" class="text-dark">Mechanical Gaming Keyboard</a></h5>
+                                <div class="d-flex align-items-center mb-3 mt-auto">
+                                    <span class="font-weight-bold text-primary mr-2 h5 mb-0">$89.00</span>
+                                </div>
+                                <button class="btn btn-primary btn-block mt-auto add-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Product pagination" class="mt-4">
+                    <ul class="pagination justify-content-center custom-pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-5 pb-4 footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-lg-4 mb-4">
+                    <h5 class="font-weight-bold mb-4 text-white"><span class="text-primary">Lumina</span>Store</h5>
+                    <p class="text-muted small">Your one-stop destination for premium electronics, accessories, and everyday essentials. We deliver quality directly to your doorstep.</p>
+                </div>
+                <div class="col-md-3 col-lg-2 mb-4">
+                    <h6 class="font-weight-bold mb-4 text-uppercase">Shop</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Electronics</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Clothing</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Home & Garden</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Deals</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg-2 mb-4">
+                    <h6 class="font-weight-bold mb-4 text-uppercase">Customer Service</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Contact Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Shipping & Returns</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">FAQ</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted footer-link">Order Status</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg-4 mb-4">
+                    <h6 class="font-weight-bold mb-4 text-uppercase">Newsletter</h6>
+                    <p class="text-muted small">Subscribe to receive updates, access to exclusive deals, and more.</p>
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text" class="form-control bg-dark border-secondary text-light" placeholder="Enter your email">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4 mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-left">
+                    <p class="text-muted small mb-0">&copy; 2026 LuminaStore. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-right mt-3 mt-md-0">
+                    <!-- Social icons placeholders -->
+                    <a href="#" class="text-muted mx-2 footer-social">Facebook</a>
+                    <a href="#" class="text-muted mx-2 footer-social">Twitter</a>
+                    <a href="#" class="text-muted mx-2 footer-social">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Local Bootstrap JS and dependencies -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

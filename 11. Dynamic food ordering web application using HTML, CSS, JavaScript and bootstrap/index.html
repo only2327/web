@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TastyBites - Food Ordering App</title>
+
+  <!-- Local Bootstrap 4 CSS (no internet needed) -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+  <style>
+    /* ===== General ===== */
+    body {
+      background-color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar-brand { font-size: 1.5rem; font-weight: 700; }
+
+    #cart-btn {
+      position: relative;
+      cursor: pointer;
+    }
+
+    #cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      margin-bottom: 30px;
+    }
+    .hero h1 { font-size: 2.5rem; font-weight: 800; }
+    .hero p  { font-size: 1.1rem; opacity: 0.9; }
+
+    /* ===== Category Buttons ===== */
+    .category-bar { text-align: center; margin-bottom: 30px; }
+    .cat-btn {
+      margin: 5px;
+      padding: 10px 24px;
+      border: 2px solid #ff6b35;
+      background: white;
+      color: #ff6b35;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cat-btn:hover, .cat-btn.active {
+      background: #ff6b35;
+      color: white;
+    }
+
+    /* ===== Food Cards ===== */
+    .food-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 24px;
+    }
+    .food-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+    }
+    .food-emoji {
+      font-size: 5rem;
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      text-align: center;
+      padding: 30px 10px;
+    }
+    .food-body { padding: 16px; }
+    .food-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .food-desc { font-size: 0.82rem; color: #888; margin-bottom: 12px; min-height: 36px; }
+    .food-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .food-price { font-size: 1.1rem; font-weight: 800; color: #ff6b35; }
+    .add-btn {
+      background: #ff6b35;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: #e55a25; }
+
+    /* ===== Cart Sidebar ===== */
+    #cart-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1000;
+    }
+    #cart-sidebar {
+      position: fixed;
+      top: 0; right: -420px;
+      width: 400px;
+      max-width: 95vw;
+      height: 100%;
+      background: white;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.3s ease;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+    }
+    #cart-sidebar.open { right: 0; }
+
+    .cart-header {
+      background: #ff6b35;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-header h4 { margin: 0; font-weight: 700; font-size: 1.2rem; }
+    #close-cart {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    #cart-items-list { flex: 1; overflow-y: auto; padding: 16px; }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 700; font-size: 0.95rem; }
+    .cart-item-price { font-size: 0.82rem; color: #888; }
+
+    .qty-controls { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      width: 30px; height: 30px;
+      border: 2px solid #ff6b35;
+      background: white;
+      color: #ff6b35;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover { background: #ff6b35; color: white; }
+    .qty-num { font-weight: 700; min-width: 20px; text-align: center; }
+
+    .cart-item-total { font-weight: 800; color: #ff6b35; min-width: 65px; text-align: right; }
+
+    .empty-cart-msg { text-align: center; padding: 60px 20px; color: #aaa; }
+    .empty-cart-msg .emoji { font-size: 4rem; }
+
+    /* ===== Cart Footer ===== */
+    .cart-footer {
+      border-top: 2px solid #eee;
+      padding: 20px;
+      background: #fafafa;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .total-label { font-size: 1.1rem; font-weight: 700; }
+    #total-amount { font-size: 1.4rem; font-weight: 800; color: #ff6b35; }
+    #checkout-btn {
+      width: 100%;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #checkout-btn:hover { background: #218838; }
+
+    /* ===== Toast Notification ===== */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #28a745;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: #212529;
+      color: #aaa;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <span class="navbar-brand">🍔 TastyBites</span>
+    <button class="btn btn-warning font-weight-bold" id="cart-btn" onclick="openCart()">
+      🛒 Cart
+      <span id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>🍽️ Order Delicious Food</h1>
+  <p>Choose from Snacks, Meals & Beverages — Fast & Fresh!</p>
+</div>
+
+<!-- ===== CATEGORY BUTTONS ===== -->
+<div class="container">
+  <div class="category-bar">
+    <button class="cat-btn active" onclick="filterMenu('All', this)">🍽️ All</button>
+    <button class="cat-btn" onclick="filterMenu('Snacks', this)">🍟 Snacks</button>
+    <button class="cat-btn" onclick="filterMenu('Meals', this)">🍔 Meals</button>
+    <button class="cat-btn" onclick="filterMenu('Beverages', this)">🥤 Beverages</button>
+  </div>
+
+  <!-- ===== MENU GRID ===== -->
+  <div class="row" id="menu-grid"></div>
+</div>
+
+<!-- ===== CART OVERLAY & SIDEBAR ===== -->
+<div id="cart-overlay" onclick="closeCart()"></div>
+
+<div id="cart-sidebar">
+  <div class="cart-header">
+    <h4>🛒 Your Cart</h4>
+    <button id="close-cart" onclick="closeCart()">&times;</button>
+  </div>
+
+  <div id="cart-items-list">
+    <!-- Cart items rendered here -->
+  </div>
+
+  <div class="cart-footer">
+    <div class="total-row">
+      <span class="total-label">Total Bill:</span>
+      <span id="total-amount">₹0.00</span>
+    </div>
+    <button id="checkout-btn" onclick="checkout()">✅ Checkout</button>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>&copy; 2026 TastyBites. All rights reserved.</p>
+</footer>
+
+<!-- Pure Vanilla JS — NO jQuery, NO internet needed -->
+<script src="js/script.js"></script>
+</body>
+</html>

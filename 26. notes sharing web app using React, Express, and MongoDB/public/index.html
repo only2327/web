@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NoteShare – Notes Sharing Portal</title>
+  <meta name="description" content="Upload and browse academic notes subject-wise. Share notes with your classmates easily."/>
+
+  <script src="/react.development.js"></script>
+  <script src="/react-dom.development.js"></script>
+  <script src="/babel.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --bg2:       #161b22;
+      --bg3:       #1c2128;
+      --bginput:   #21262d;
+      --border:    #30363d;
+      --borderhov: #58a6ff;
+      --txt:       #e6edf3;
+      --txt2:      #8b949e;
+      --muted:     #656d76;
+      --blue:      #58a6ff;
+      --purple:    #a371f7;
+      --green:     #3fb950;
+      --orange:    #f0883e;
+      --red:       #f85149;
+      --grad1:     linear-gradient(135deg,#58a6ff 0%,#a371f7 100%);
+      --grad2:     linear-gradient(135deg,#3fb950 0%,#58a6ff 100%);
+      --shadow:    0 8px 32px rgba(0,0,0,0.4);
+      --glow:      0 0 20px rgba(88,166,255,0.15);
+      --r:         10px;
+      --rl:        16px;
+      --t:         all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--txt); min-height: 100vh; line-height: 1.6; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--blue); }
+
+    /* Header */
+    .header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 38px; height: 38px; background: var(--grad1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .logo-text { font-size: 18px; font-weight: 700; }
+    .logo-sub  { font-size: 11px; color: var(--txt2); margin-top: -2px; }
+    .hstat { display: flex; gap: 16px; }
+    .chip { display: flex; align-items: center; gap: 6px; background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 13px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .db { background: var(--blue); } .dg { background: var(--green); } .dp { background: var(--purple); }
+
+    /* Layout */
+    .main { max-width: 1200px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: start; }
+
+    /* Card */
+    .card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rl); padding: 24px; box-shadow: var(--shadow); }
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+
+    /* Form */
+    .fg { margin-bottom: 16px; }
+    .fl { display: block; font-size: 12px; font-weight: 600; color: var(--txt2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .fc { width: 100%; background: var(--bginput); border: 1px solid var(--border); border-radius: var(--r); padding: 10px 13px; color: var(--txt); font-size: 14px; font-family: inherit; transition: var(--t); outline: none; }
+    .fc:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(88,166,255,0.12); }
+    .fc::placeholder { color: var(--muted); }
+    select.fc { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 36px; }
+    textarea.fc { resize: vertical; min-height: 88px; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: var(--r); font-size: 14px; font-weight: 600; font-family: inherit; border: none; cursor: pointer; transition: var(--t); white-space: nowrap; }
+    .btn-primary { width: 100%; background: var(--grad1); color: #fff; box-shadow: 0 4px 16px rgba(88,166,255,0.25); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(88,166,255,0.35); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-sm { padding: 5px 11px; font-size: 12px; border-radius: 6px; }
+    .btn-del { background: rgba(248,81,73,0.12); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+    .btn-del:hover { background: rgba(248,81,73,0.22); }
+
+    /* Alert */
+    .alert { padding: 11px 15px; border-radius: var(--r); font-size: 13px; font-weight: 500; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    .alert-ok  { background: rgba(63,185,80,0.12); border: 1px solid rgba(63,185,80,0.3); color: var(--green); }
+    .alert-err { background: rgba(248,81,73,0.12); border: 1px solid rgba(248,81,73,0.3); color: var(--red); }
+
+    /* Search & Filter bar */
+    .top-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .search-wrap { position: relative; flex: 1; min-width: 180px; }
+    .search-wrap input { padding-left: 34px; }
+    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+    .fbtn { padding: 7px 15px; border-radius: 20px; border: 1px solid var(--border); background: var(--bginput); color: var(--txt2); font-size: 13px; font-weight: 500; cursor: pointer; transition: var(--t); }
+    .fbtn:hover { border-color: var(--blue); color: var(--blue); }
+    .fbtn.act { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    /* Subject group */
+    .subject-group { margin-bottom: 28px; }
+    .subject-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .subject-pill { background: var(--grad1); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.3px; }
+    .subject-line { flex: 1; height: 1px; background: var(--border); }
+    .subject-count { font-size: 12px; color: var(--muted); }
+    .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+
+    /* Note card */
+    .note-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 18px 14px; transition: var(--t); animation: fadeUp 0.35s ease; position: relative; overflow: hidden; }
+    .note-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background: var(--grad1); }
+    .note-card:hover { border-color: var(--borderhov); box-shadow: var(--glow); transform: translateY(-2px); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .note-title { font-size: 15px; font-weight: 700; color: var(--txt); margin-bottom: 8px; word-break: break-word; }
+    .note-desc { font-size: 13px; color: var(--txt2); margin-bottom: 12px; line-height: 1.5; word-break: break-word; }
+    .note-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--blue); text-decoration: none; margin-bottom: 12px; word-break: break-all; transition: var(--t); }
+    .note-link:hover { color: var(--purple); text-decoration: underline; }
+    .note-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
+    .note-meta { font-size: 11px; color: var(--muted); }
+    .note-by { font-size: 11px; color: var(--txt2); }
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; background: rgba(88,166,255,0.12); color: var(--blue); border: 1px solid rgba(88,166,255,0.25); margin-bottom: 8px; }
+
+    /* Empty & loading */
+    .empty { text-align: center; padding: 56px 24px; color: var(--muted); }
+    .empty-icon { font-size: 52px; margin-bottom: 14px; }
+    .empty-title { font-size: 16px; font-weight: 600; color: var(--txt2); margin-bottom: 6px; }
+    .empty-desc { font-size: 13px; }
+    .loading { display: flex; align-items: center; justify-content: center; padding: 56px; gap: 12px; color: var(--muted); }
+    .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media(max-width:800px) { .main { grid-template-columns: 1fr; } .hstat { display: none; } .notes-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+  const { useState, useEffect, useCallback, useMemo } = React;
+
+  const SUBJECTS = ['Mathematics','Physics','Chemistry','Biology','Computer Science','English','History','Geography','Economics','Accounts','Other'];
+
+  const API = {
+    getNotes: () => fetch('/api/notes').then(r => r.json()),
+    addNote:  (data) => fetch('/api/notes', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) }).then(r => r.json()),
+    delNote:  (id) => fetch(`/api/notes/${id}`, { method:'DELETE' }).then(r => r.json()),
+  };
+
+  function fmtDate(d) {
+    return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  }
+
+  /* ── Alert ── */
+  function Alert({ a }) {
+    if (!a) return null;
+    return <div className={`alert ${a.ok ? 'alert-ok' : 'alert-err'}`}>{a.ok ? '✅' : '❌'} {a.msg}</div>;
+  }
+
+  /* ── Upload Form ── */
+  function UploadForm({ onDone }) {
+    const empty = { subject:'', title:'', description:'', link:'', uploadedBy:'' };
+    const [form, setForm] = useState(empty);
+    const [busy, setBusy] = useState(false);
+    const [alert, setAlert] = useState(null);
+
+    const set = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+
+    const submit = async e => {
+      e.preventDefault();
+      if (!form.subject || !form.title.trim()) {
+        setAlert({ ok:false, msg:'Subject and Title are required.' }); return;
+      }
+      setBusy(true);
+      try {
+        const r = await API.addNote(form);
+        if (r.error) throw new Error(r.error);
+        setAlert({ ok:true, msg:'Note uploaded successfully!' });
+        setForm(empty);
+        onDone();
+        setTimeout(() => setAlert(null), 3500);
+      } catch(err) {
+        setAlert({ ok:false, msg: err.message || 'Upload failed.' });
+      } finally { setBusy(false); }
+    };
+
+    return (
+      <div className="card" style={{ position:'sticky', top:'76px' }}>
+        <h2 className="card-title"><span>📤</span> Upload a Note</h2>
+        <Alert a={alert} />
+        <form onSubmit={submit}>
+          <div className="fg">
+            <label className="fl">Subject *</label>
+            <select name="subject" className="fc" value={form.subject} onChange={set}>
+              <option value="">— Select Subject —</option>
+              {SUBJECTS.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+          <div className="fg">
+            <label className="fl">Note Title *</label>
+            <input type="text" name="title" className="fc" placeholder="e.g. Chapter 3 – Integration" value={form.title} onChange={set}/>
+          </div>
+          <div className="fg">
+            <label className="fl">Description / Summary</label>
+            <textarea name="description" className="fc" placeholder="Brief description of the note content..." value={form.description} onChange={set}/>
+          </div>
+          <div className="fg">
+            <label className="fl">Drive / Resource Link</label>
+            <input type="text" name="link" className="fc" placeholder="e.g. https://drive.google.com/..." value={form.link} onChange={set}/>
+          </div>
+          <div className="fg">
+            <label className="fl">Uploaded By</label>
+            <input type="text" name="uploadedBy" className="fc" placeholder="Your name (optional)" value={form.uploadedBy} onChange={set}/>
+          </div>
+          <button type="submit" className="btn btn-primary" disabled={busy}>
+            {busy ? '⏳ Uploading…' : '🚀 Upload Note'}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  /* ── Note Card ── */
+  function NoteCard({ note, onDel }) {
+    const del = async () => {
+      if (!window.confirm('Delete this note?')) return;
+      await API.delNote(note._id);
+      onDel();
+    };
+    return (
+      <div className="note-card">
+        <div className="badge">{note.subject}</div>
+        <div className="note-title">{note.title}</div>
+        {note.description && <div className="note-desc">{note.description}</div>}
+        {note.link && (
+          <a className="note-link" href={note.link} target="_blank" rel="noopener noreferrer">
+            🔗 {note.link.length > 45 ? note.link.slice(0,45)+'…' : note.link}
+          </a>
+        )}
+        <div className="note-footer">
+          <div>
+            <div className="note-by">👤 {note.uploadedBy || 'Anonymous'}</div>
+            <div className="note-meta">📅 {fmtDate(note.createdAt)}</div>
+          </div>
+          <button className="btn btn-sm btn-del" onClick={del}>🗑</button>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Notes Panel ── */
+  function NotesPanel({ refresh }) {
+    const [notes, setNotes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState('');
+    const [filter, setFilter] = useState('All');
+
+    const load = useCallback(async () => {
+      setLoading(true);
+      try { const d = await API.getNotes(); setNotes(Array.isArray(d) ? d : []); }
+      catch { setNotes([]); }
+      finally { setLoading(false); }
+    }, []);
+
+    useEffect(() => { load(); }, [load, refresh]);
+
+    /* unique subjects from data */
+    const allSubjects = useMemo(() => ['All', ...new Set(notes.map(n => n.subject))], [notes]);
+
+    /* filtered notes */
+    const visible = useMemo(() => {
+      let list = filter === 'All' ? notes : notes.filter(n => n.subject === filter);
+      if (search.trim()) {
+        const q = search.toLowerCase();
+        list = list.filter(n =>
+          n.title.toLowerCase().includes(q) ||
+          (n.description||'').toLowerCase().includes(q) ||
+          n.subject.toLowerCase().includes(q)
+        );
+      }
+      return list;
+    }, [notes, filter, search]);
+
+    /* group by subject */
+    const grouped = useMemo(() => {
+      const map = {};
+      visible.forEach(n => { (map[n.subject] = map[n.subject]||[]).push(n); });
+      return map;
+    }, [visible]);
+
+    if (loading) return <div className="loading"><div className="spinner"></div>Loading notes…</div>;
+
+    return (
+      <div>
+        {/* Top bar */}
+        <div className="top-bar">
+          <div className="search-wrap">
+            <span className="search-icon">🔍</span>
+            <input className="fc search-wrap" style={{paddingLeft:'34px'}} type="text" placeholder="Search notes…" value={search} onChange={e=>setSearch(e.target.value)}/>
+          </div>
+          {allSubjects.map(s => (
+            <button key={s} className={`fbtn ${filter===s?'act':''}`} onClick={()=>setFilter(s)}>{s} {s!=='All' ? `(${notes.filter(n=>n.subject===s).length})` : `(${notes.length})`}</button>
+          ))}
+        </div>
+
+        {/* Groups */}
+        {Object.keys(grouped).length === 0 ? (
+          <div className="empty">
+            <div className="empty-icon">📭</div>
+            <div className="empty-title">No notes found</div>
+            <div className="empty-desc">{notes.length === 0 ? 'Upload the first note using the form.' : 'Try a different search or filter.'}</div>
+          </div>
+        ) : (
+          Object.entries(grouped).map(([subj, list]) => (
+            <div key={subj} className="subject-group">
+              <div className="subject-header">
+                <span className="subject-pill">📚 {subj}</span>
+                <div className="subject-line"></div>
+                <span className="subject-count">{list.length} note{list.length!==1?'s':''}</span>
+              </div>
+              <div className="notes-grid">
+                {list.map(n => <NoteCard key={n._id} note={n} onDel={load}/>)}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    );
+  }
+
+  /* ── Header ── */
+  function Header({ total, subjects }) {
+    return (
+      <header className="header">
+        <div className="header-inner">
+          <div className="logo">
+            <div className="logo-icon">📓</div>
+            <div>
+              <div className="logo-text">NoteShare</div>
+              <div className="logo-sub">Academic Notes Sharing Portal</div>
+            </div>
+          </div>
+          <div className="hstat">
+            <div className="chip"><span className="dot db"></span>Total Notes: <strong>{total}</strong></div>
+            <div className="chip"><span className="dot dp"></span>Subjects: <strong>{subjects}</strong></div>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  /* ── App Root ── */
+  function App() {
+    const [refresh, setRefresh] = useState(0);
+    const [stats, setStats] = useState({ total:0, subjects:0 });
+
+    useEffect(() => {
+      fetch('/api/notes').then(r=>r.json()).then(data => {
+        if (Array.isArray(data)) {
+          setStats({ total: data.length, subjects: new Set(data.map(n=>n.subject)).size });
+        }
+      }).catch(()=>{});
+    }, [refresh]);
+
+    return (
+      <>
+        <Header total={stats.total} subjects={stats.subjects} />
+        <main className="main">
+          <UploadForm onDone={() => setRefresh(n => n+1)} />
+          <NotesPanel refresh={refresh} />
+        </main>
+      </>
+    );
+  }
+
+  ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>

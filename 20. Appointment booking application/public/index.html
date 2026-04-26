@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Premium Appointment Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">MC</div>
+                <h2>MedConnect</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="active" data-target="dashboard">
+                    <span class="nav-icon">📅</span> Dashboard
+                </a>
+                <a href="#" data-target="book">
+                    <span class="nav-icon">✍️</span> Book Appointment
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Welcome, Admin</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="showSection('book')">+ New Booking</button>
+                    <div class="profile-avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon pending">⏳</div>
+                        <div class="stat-info">
+                            <h3>Pending</h3>
+                            <p id="pending-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon confirmed">✅</div>
+                        <div class="stat-info">
+                            <h3>Confirmed</h3>
+                            <p id="confirmed-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon total">📊</div>
+                        <div class="stat-info">
+                            <h3>Total Bookings</h3>
+                            <p id="total-count">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="appointments-wrapper">
+                    <div class="section-header">
+                        <h2>Recent Appointments</h2>
+                    </div>
+                    
+                    <div class="appointments-list" id="appointments-list">
+                        <!-- Appointments will be injected here via JS -->
+                        <div class="empty-state" id="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <p>No appointments found. Book one now!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Booking Form Section -->
+            <section id="book-section" class="content-section">
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <h2>Schedule an Appointment</h2>
+                        <p>Fill in the details to book a visit with our specialists.</p>
+                    </div>
+                    
+                    <form id="booking-form" class="booking-form">
+                        <div class="form-group">
+                            <label for="patientName">Patient Name</label>
+                            <input type="text" id="patientName" name="patientName" placeholder="e.g., John Doe" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="doctorName">Select Specialist</label>
+                            <select id="doctorName" name="doctorName" required>
+                                <option value="" disabled selected>Choose a Doctor...</option>
+                                <option value="Dr. Sarah Smith (Cardiology)">Dr. Sarah Smith (Cardiology)</option>
+                                <option value="Dr. James Wilson (Neurology)">Dr. James Wilson (Neurology)</option>
+                                <option value="Dr. Emily Chen (Pediatrics)">Dr. Emily Chen (Pediatrics)</option>
+                                <option value="Dr. Michael Brown (Orthopedics)">Dr. Michael Brown (Orthopedics)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="appointmentDate">Date</label>
+                                <input type="date" id="appointmentDate" name="appointmentDate" required>
+                            </div>
+                            <div class="form-group half">
+                                <label for="appointmentTime">Time</label>
+                                <input type="time" id="appointmentTime" name="appointmentTime" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reason">Reason for Visit (Optional)</label>
+                            <textarea id="reason" name="reason" rows="3" placeholder="Briefly describe the symptoms or reason..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('booking-form').reset()">Clear</button>
+                            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

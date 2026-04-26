@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Feedback Form</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- ── Navigation ─────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="nav-icon">📝</span>
+      <span class="nav-title">FeedbackHub</span>
+    </div>
+    <div class="nav-links">
+      <a href="/" class="nav-link active">Submit Feedback</a>
+      <a href="/feedbacks" class="nav-link">View Feedbacks</a>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ────────────────────────────────────── -->
+  <main class="main-container">
+
+    <div class="page-header">
+      <div class="header-icon">🎓</div>
+      <h1 class="page-title">Student Feedback Form</h1>
+      <p class="page-subtitle">Share your thoughts about the subject to help us improve</p>
+    </div>
+
+    <!-- Feedback Form Card -->
+    <div class="form-card">
+      <form action="/submit" method="POST" id="feedbackForm" novalidate>
+
+        <!-- Student Name -->
+        <div class="form-group">
+          <label for="studentName" class="form-label">
+            <span class="label-icon">👤</span>
+            Student Name
+          </label>
+          <input
+            type="text"
+            id="studentName"
+            name="studentName"
+            class="form-input"
+            placeholder="Enter your full name"
+            required
+            maxlength="100"
+          />
+          <span class="error-msg" id="nameError">Please enter your name.</span>
+        </div>
+
+        <!-- Subject -->
+        <div class="form-group">
+          <label for="subject" class="form-label">
+            <span class="label-icon">📚</span>
+            Subject
+          </label>
+          <select id="subject" name="subject" class="form-input form-select" required>
+            <option value="" disabled selected>-- Select a Subject --</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="English">English</option>
+            <option value="History">History</option>
+            <option value="Geography">Geography</option>
+            <option value="Economics">Economics</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="error-msg" id="subjectError">Please select a subject.</span>
+        </div>
+
+        <!-- Feedback -->
+        <div class="form-group">
+          <label for="feedback" class="form-label">
+            <span class="label-icon">💬</span>
+            Your Feedback
+          </label>
+          <textarea
+            id="feedback"
+            name="feedback"
+            class="form-input form-textarea"
+            placeholder="Write your feedback here... (minimum 10 characters)"
+            required
+            minlength="10"
+            maxlength="1000"
+            rows="5"
+          ></textarea>
+          <div class="char-counter">
+            <span class="error-msg" id="feedbackError">Please enter feedback (minimum 10 characters).</span>
+            <span class="char-count" id="charCount">0 / 1000</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-icon">🚀</span>
+          Submit Feedback
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-icon">🔒</span>
+        <p>Your feedback is stored securely in our database.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">⚡</span>
+        <p>Feedback is immediately visible on the view page.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">📊</span>
+        <p>All entries are sorted by newest first.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>&copy; 2024 FeedbackHub &mdash; Student Feedback Collection System</p>
+  </footer>
+
+  <script src="/js/form.js"></script>
+</body>
+</html>

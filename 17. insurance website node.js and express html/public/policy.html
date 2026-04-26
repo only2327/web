@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Policy - ShieldSure</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Shield<span>Sure</span></div>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/plans">Plans</a>
+    <a href="/quote">Get Quote</a>
+    <a href="/claims">Claims</a>
+    <a href="/policy" class="active">My Policy</a>
+    <a href="/admin" class="btn-nav">Admin</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>My Policy</h1>
+  <p>Look up your policy details or create a new one</p>
+</div>
+
+<section class="section">
+  <!-- Lookup -->
+  <div class="form-card" style="margin-bottom:2rem;">
+    <div class="form-title">🔍 Look Up Policy</div>
+    <div class="form-sub">Enter your policy number to view full details.</div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <input type="text" id="lookupNum" placeholder="e.g. POL-1234567890-123" style="flex:1;min-width:200px;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:0.7rem 1rem;color:var(--text);outline:none;" />
+      <button class="btn btn-primary" onclick="lookupPolicy()">Search Policy</button>
+    </div>
+    <div id="lookupResult" style="margin-top:1.5rem;"></div>
+  </div>
+
+  <!-- Create New Policy -->
+  <div class="form-card">
+    <div class="form-title">➕ Create New Policy</div>
+    <div class="form-sub">Manually issue a new policy (admin use).</div>
+    <div id="policyAlert" class="alert"></div>
+    <form id="policyForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Policy Holder Name *</label>
+          <input type="text" id="holderName" placeholder="Full name" required />
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="email" placeholder="email@example.com" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone *</label>
+          <input type="tel" id="phone" placeholder="9876543210" required />
+        </div>
+        <div class="form-group">
+          <label>Insurance Type *</label>
+          <select id="planType" required>
+            <option value="">-- Select --</option>
+            <option value="health">Health</option>
+            <option value="life">Life</option>
+            <option value="vehicle">Vehicle</option>
+            <option value="home">Home</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cover Amount (₹) *</label>
+          <input type="number" id="coverAmount" placeholder="e.g. 500000" min="10000" required />
+        </div>
+        <div class="form-group">
+          <label>Monthly Premium (₹) *</label>
+          <input type="number" id="premium" placeholder="e.g. 3000" min="100" required />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" style="width:100%;">Issue Policy</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <strong>ShieldSure Insurance</strong> &copy; 2025
+</footer>
+
+<script>
+  async function lookupPolicy() {
+    const num = document.getElementById('lookupNum').value.trim();
+    const res = document.getElementById('lookupResult');
+    if (!num) { res.innerHTML = '<p style="color:var(--danger);">Please enter a policy number.</p>'; return; }
+
+    try {
+      const r = await fetch('/api/policies/' + encodeURIComponent(num));
+      const json = await r.json();
+      if (!json.success) {
+        res.innerHTML = `<div class="empty"><div class="empty-icon">❌</div><p>${json.message}</p></div>`;
+        return;
+      }
+      const p = json.policy;
+      const badge = p.status === 'Active' ? 'badge-active' : 'badge-pending';
+      const planIcons = { health: '❤️', life: '🌿', vehicle: '🚗', home: '🏠' };
+      res.innerHTML = `
+        <div class="card" style="border-color:var(--success);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <div style="font-size:1.8rem;">${planIcons[p.planType] || '🛡️'}</div>
+            <span class="badge ${badge}">${p.status}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div><div style="color:var(--muted);font-size:0.8rem;">POLICY NUMBER</div><div style="font-weight:700;">${p.policyNumber}</div></div>
+            <div><div style="color:var(--muted);font-size:0.8rem;">HOLDER</div><div style="font-weight:700;">${p.holderName}</div></div>
+            <div><div style="color:var(--muted);font-size:0.8rem;">PLAN TYPE</div><div style="font-weight:700;text-transform:capitalize;">${p.planType}</div></div>
+            <div><div style="color:var(--muted);font-size:0.8rem;">COVER AMOUNT</div><div style="font-weight:700;color:var(--primary);">₹${Number(p.coverAmount).toLocaleString('en-IN')}</div></div>
+            <div><div style="color:var(--muted);font-size:0.8rem;">MONTHLY PREMIUM</div><div style="font-weight:700;">₹${Number(p.premium).toLocaleString('en-IN')}</div></div>
+            <div><div style="color:var(--muted);font-size:0.8rem;">VALID UNTIL</div><div style="font-weight:700;">${new Date(p.endDate).toLocaleDateString('en-IN')}</div></div>
+          </div>
+        </div>`;
+    } catch(err) {
+      res.innerHTML = '<p style="color:var(--danger);">Error connecting to server.</p>';
+    }
+  }
+
+  document.getElementById('policyForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const alertEl = document.getElementById('policyAlert');
+    const data = {
+      holderName:  document.getElementById('holderName').value.trim(),
+      email:       document.getElementById('email').value.trim(),
+      phone:       document.getElementById('phone').value.trim(),
+      planType:    document.getElementById('planType').value,
+      coverAmount: document.getElementById('coverAmount').value,
+      premium:     document.getElementById('premium').value
+    };
+    try {
+      const res = await fetch('/api/policies', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      alertEl.className = json.success ? 'alert alert-success show' : 'alert alert-error show';
+      alertEl.textContent = (json.success ? '✅ ' : '❌ ') + json.message;
+      if (json.success) {
+        alertEl.textContent += ' Policy No: ' + json.policy.policyNumber;
+        document.getElementById('policyForm').reset();
+      }
+    } catch(err) {
+      alertEl.className = 'alert alert-error show';
+      alertEl.textContent = '❌ Server error.';
+    }
+  });
+</script>
+</body>
+</html>

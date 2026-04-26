@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Fashion | E-Commerce</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">LUXE<span>.</span></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" class="active" onclick="filterProducts('all', event)">Home</a></li>
+            <li><a href="#products" onclick="filterProducts('men', event)">Men</a></li>
+            <li><a href="#products" onclick="filterProducts('women', event)">Women</a></li>
+            <li><a href="#products" onclick="filterProducts('accessories', event)">Accessories</a></li>
+        </ul>
+        <div class="nav-icons">
+            <div class="cart-icon" onclick="toggleCart()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Elevate Your Style</h1>
+            <p>Discover the latest trends in fashion. Premium quality, exclusive designs.</p>
+            <button class="cta-btn" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">Shop Now</button>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <div class="section-header">
+            <h2 id="category-title">Featured Products</h2>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search products..." onkeyup="searchProducts()">
+            </div>
+        </div>
+        
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be dynamically injected here by JS -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="margin-bottom: 1rem;">LUXE<span>.</span></div>
+            <p>&copy; 2026 Luxe Fashion Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-overlay" id="cart-overlay" onclick="closeCart(event)">
+        <div class="cart-modal" id="cart-modal">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-btn" onclick="toggleCart()">✖</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will go here -->
+                <p class="empty-cart">Your cart is empty.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total-price">$0.00</span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

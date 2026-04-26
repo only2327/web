@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHaven - Online Bookstore</title>
+    <!-- Local Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="#">📚 BookHaven</a>
+            <button class="navbar-toggler" type="button" onclick="toggleNav()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="filterBooks('All'); return false;">All Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="filterBooks('Fiction'); return false;">Fiction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="filterBooks('Non-fiction'); return false;">Non-fiction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="filterBooks('Academic'); return false;">Academic</a>
+                    </li>
+                </ul>
+                <div class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-warning d-flex align-items-center" type="button" onclick="openCartModal()">
+                        Cart <span class="badge badge-dark ml-2 badge-pill" id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="jumbotron jumbotron-fluid bg-primary text-white text-center mb-5">
+        <div class="container">
+            <h1 class="display-4 font-weight-bold">Welcome to BookHaven</h1>
+            <p class="lead">Discover your next great read from our vast and curated collection.</p>
+        </div>
+    </header>
+
+    <!-- Product Listing Section -->
+    <main class="container mb-5 flex-grow-1">
+        <div class="row" id="book-list">
+            <!-- Books will be dynamically injected here via JS -->
+        </div>
+    </main>
+
+    <!-- Custom Cart Modal (Vanilla JS) -->
+    <div class="custom-modal-backdrop" id="cartBackdrop" onclick="closeCartModal()"></div>
+    <div class="custom-modal" id="cartModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Shopping Cart</h5>
+                    <button type="button" class="close text-white" onclick="closeCartModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-items">
+                                <!-- Cart items will be dynamically injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-right mt-3 border-top pt-3">
+                        <h4 class="mb-0">Total: $<span id="cart-total" class="text-primary font-weight-bold">0.00</span></h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCartModal()">Continue Shopping</button>
+                    <button type="button" class="btn btn-success" onclick="checkout()">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 BookHaven. Designed for Book Lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>

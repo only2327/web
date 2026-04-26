@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMarket - Used Vehicles Portal</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Auto<span>Market</span></div>
+        <p class="tagline">Premium Used Cars & Bikes</p>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <div class="card form-card">
+                <h2>Post a New Listing</h2>
+                <form action="/add-vehicle" method="POST" class="vehicle-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="type">Vehicle Type</label>
+                            <select name="type" id="type" required>
+                                <option value="Car">Car</option>
+                                <option value="Bike">Bike</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="make">Make / Brand</label>
+                            <input type="text" name="make" id="make" placeholder="e.g., Honda" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="model">Model</label>
+                            <input type="text" name="model" id="model" placeholder="e.g., Civic" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Manufacturing Year</label>
+                            <input type="number" name="year" id="year" placeholder="e.g., 2018" min="1990" max="2026" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Price (₹)</label>
+                            <input type="number" name="price" id="price" placeholder="e.g., 500000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mileage">Kilometers Driven</label>
+                            <input type="number" name="mileage" id="mileage" placeholder="e.g., 45000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Additional Details</label>
+                        <textarea name="description" id="description" rows="3" placeholder="Condition, features, etc."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Publish Listing</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="listings-section">
+            <div class="listings-header">
+                <h2>Available Vehicles</h2>
+                <span class="badge"><%= vehicles.length %> Listings</span>
+            </div>
+            
+            <% if (vehicles.length === 0) { %>
+                <div class="empty-state">
+                    <div class="empty-icon">🚗</div>
+                    <h3>No listings available</h3>
+                    <p>Be the first to post a vehicle for sale!</p>
+                </div>
+            <% } else { %>
+                <div class="grid">
+                    <% vehicles.forEach(vehicle => { %>
+                        <div class="card listing-card">
+                            <div class="card-header">
+                                <span class="vehicle-type <%= vehicle.type.toLowerCase() %>"><%= vehicle.type %></span>
+                                <h3 class="price">₹<%= vehicle.price.toLocaleString('en-IN') %></h3>
+                            </div>
+                            <div class="card-body">
+                                <h4><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h4>
+                                <div class="specs">
+                                    <div class="spec-item">
+                                        <span class="spec-label">Driven:</span>
+                                        <span class="spec-value"><%= vehicle.mileage.toLocaleString('en-IN') %> km</span>
+                                    </div>
+                                </div>
+                                <% if (vehicle.description) { %>
+                                    <p class="description"><%= vehicle.description %></p>
+                                <% } %>
+                            </div>
+                            <div class="card-footer">
+                                <span class="date">Listed on <%= new Date(vehicle.createdAt).toLocaleDateString() %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Rental System</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">RentX</div>
+        <ul class="nav-links">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/bookings">View Bookings</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <% if (message) { %>
+            <div class="alert <%= message.includes('Error') ? 'alert-error' : 'alert-success' %>">
+                <%= message %>
+            </div>
+        <% } %>
+
+        <section class="items-section">
+            <h2 class="section-title">Available for Rent</h2>
+            <div class="items-grid">
+                <% items.forEach(item => { %>
+                    <div class="item-card">
+                        <div class="item-icon"><%= item.img %></div>
+                        <h3><%= item.name %></h3>
+                        <p class="price">$<%= item.pricePerDay %> <span>/ day</span></p>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <section class="booking-section">
+            <h2 class="section-title">Book an Item</h2>
+            <div class="form-container">
+                <form action="/book" method="POST" class="booking-form">
+                    <div class="form-group">
+                        <label for="itemType">Select Item</label>
+                        <select name="itemType" id="itemType" required>
+                            <option value="" disabled selected>Choose an item...</option>
+                            <% items.forEach(item => { %>
+                                <option value="<%= item.name %>"><%= item.name %> - $<%= item.pricePerDay %>/day</option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerName">Full Name</label>
+                        <input type="text" name="customerName" id="customerName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number</label>
+                        <input type="tel" name="customerPhone" id="customerPhone" placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rentalDuration">Rental Duration (Days)</label>
+                        <input type="number" name="rentalDuration" id="rentalDuration" min="1" placeholder="Number of days" required>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Confirm Booking</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
