@@ -7,7 +7,7 @@ This repository contains a comprehensive collection of 27 practical assignments 
 ## 📋 Table of Contents
 - [Prerequisites](#prerequisites)
 - [Projects & Installation Guides](#projects--installation-guides)
-  - [Frontend Projects (1 - 16)](#frontend-projects-1---16)
+  - [Frontend Projects (01 - 16)](#frontend-projects-01---16)
   - [Backend Projects (17 - 23)](#backend-projects-17---23)
   - [Full Stack MERN Projects (24 - 27)](#full-stack-mern-projects-24---27)
 - [Troubleshooting](#troubleshooting-common-issues)
@@ -27,53 +27,53 @@ Before running the backend or React projects, ensure you have the following inst
 
 Below is the list of all 27 folders with their specific installation and running instructions.
 
-### Frontend Projects (1 - 16)
+### Frontend Projects (01 - 16)
 *These projects consist of static files (HTML, CSS, JS). They do not require any package installation or backend servers.*
 
-#### 1. Text formatting tags of HTML in tabular
+#### 01. Text formatting tags of HTML in tabular
 - **Description:** Demonstrates basic HTML text formatting tags in a tabular structure.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `1. Text formatting tags of HTML in tabular` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `01. Text formatting tags of HTML in tabular` folder and double-click `index.html` in your browser.
 
-#### 2. student profile
+#### 02. student profile
 - **Description:** A static student profile page.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `2. student profile` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `02. student profile` folder and double-click `index.html` in your browser.
 
-#### 3. restaurant menu
+#### 03. restaurant menu
 - **Description:** A restaurant menu webpage layout.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `3. restaurant menu` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `03. restaurant menu` folder and double-click `index.html` in your browser.
 
-#### 4. various HTML form elements
+#### 04. various HTML form elements
 - **Description:** Showcases different HTML form input elements and their usage.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `4. various HTML form elements` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `04. various HTML form elements` folder and double-click `index.html` in your browser.
 
-#### 5. Portfolio Page using HTML and CSS. Bootbootstrap
+#### 05. Portfolio Page using HTML and CSS. Bootbootstrap
 - **Description:** A personal portfolio page styled with CSS and Bootstrap.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `5. Portfolio Page using HTML and CSS. Bootbootstrap` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `05. Portfolio Page using HTML and CSS. Bootbootstrap` folder and double-click `index.html` in your browser.
 
-#### 6. responsive resume web page , html css , bootstrap
+#### 06. responsive resume web page , html css , bootstrap
 - **Description:** A responsive resume designed using HTML, CSS, and Bootstrap.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `6. responsive resume web page , html css , bootstrap` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `06. responsive resume web page , html css , bootstrap` folder and double-click `index.html` in your browser.
 
-#### 7. Landing page for a small business or startup using HTML, CSS, and
+#### 07. Landing page for a small business or startup using HTML, CSS, and
 - **Description:** A business landing page focusing on layout and responsiveness.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `7. Landing page for a small business or startup using HTML, CSS, and` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `07. Landing page for a small business or startup using HTML, CSS, and` folder and double-click `index.html` in your browser.
 
-#### 8. Product listing page for an online store using HTML, CSS, and
+#### 08. Product listing page for an online store using HTML, CSS, and
 - **Description:** A product catalog layout for an e-commerce platform.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `8. Product listing page for an online store using HTML, CSS, and` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `08. Product listing page for an online store using HTML, CSS, and` folder and double-click `index.html` in your browser.
 
-#### 9. fashion store  E- Commerce product using HTML, css ,js
+#### 09. fashion store  E- Commerce product using HTML, css ,js
 - **Description:** An interactive fashion store product page with basic JS functionality.
 - **Installation Guide:** No installation needed.
-- **How to Run:** Open the `9. fashion store  E- Commerce product using HTML, css ,js` folder and double-click `index.html` in your browser.
+- **How to Run:** Open the `09. fashion store  E- Commerce product using HTML, css ,js` folder and double-click `index.html` in your browser.
 
 #### 10. Dynamic web application for an online bookstore using HTML, CSS, js and bootstrap
 - **Description:** An interactive bookstore web app.
